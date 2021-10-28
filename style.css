@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    display: flex;
+    width: 50%;
+    flex-direction: row;
+    align-items: top;
+    justify-content: space-between;
+    margin: 10px 20px;
+}
+
+#app>div {
+    width: 48%;
+}
+
+#app h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav {
+    display: flex;
+    margin-top: 20px;
+}
+
+#nav input {
+    padding: 5px 15px;
+    height: 24px;
+    font-size: 18px;
+}
+
+button.btn {
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+.error {
+    color: red;
+    margin-top: 6px;
+    font-size: 14px;
+}
+
+button.btn {
+    padding: 5px 15px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    border: none;
+}
+
+button.add,
+button.clear,
+button.create {
+    margin-left: 10px;
+}
+
+button.add,
+button.done,
+button.create {
+    background: #54C689;
+    color: #172A0E;
+}
+
+button.add:hover,
+button.done:hover,
+button.create:hover {
+    background: #3AAE67;
+}
+
+button.clear,
+button.uncheck {
+    background: #aeb5ad;
+}
+
+button.del {
+    background: #BB453E;
+    color: #3B1614;
+}
+
+button.del:hover {
+    background: #A13B36;
+}
+
+#app ul {
+    margin-top: 30px;
+}
+
+p.counter {
+    font-size: 13px;
+}
+
+li.activeList {
+    background: #74c687 !important;
+}
+
+#app ul li.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+    font-size: 22px;
+    background: #f5f5f5;
+    padding: 10px 15px;
+    border-radius: 7px;
+}
+
+.line {
+    text-decoration: line-through;
+}
+
+#todoList li {
+    cursor: pointer;
+}

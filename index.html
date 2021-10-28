@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do list</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="todoList">
+            <h1>Create new to do list:</h1>
+            <div class="nav">
+                <input type="text" v-model="nameList" placeholder="Enter name of list"
+                    v-on:keyup.enter="create(doList.length)">
+                <button class="btn create" @click="create(doList.length)">Create new list</button>
+            </div>
+            <ul>
+                <li :class="{activeList : item.active, content : true}" @click="activeList(item, index)"
+                    v-for="(item, index) in doList" v-bind:key="item.id">
+                    <div class="block">
+                        <input type="radio" :checked="item.active" name="todolist" @click="style(item)">
+                        {{item.name}}
+                    </div>
+                    <p class="counter">tasks: {{ item.count }}</p>
+                    <button class="btn btn-item del" @click="delList(index)">Delete</button>
+                </li>
+            </ul>
+        </div>
+        <div id="todo" v-if="check">
+            <h1>Add new task:</h1>
+            <div class="nav">
+                <input type="text" v-model="todoText" placeholder="Enter task" :disabled="doList.length==0"
+                    v-on:keyup.enter="add()">
+                <button class="btn add" @click="add()" :disabled="!(todoText.length>0)"
+                    :class="{disabled : todoText.length==0}">ADD</button>
+                <button class="btn clear" @click="clear()" :disabled="!(todoText.length>0)"
+                    :class="{disabled : todoText.length==0}">CLEAR</button>
+            </div>
+            <!--<p class="error" v-show="(todoText.length>0)? false : true">Enter your task!</p> -->
+            <ul>
+                <li class="content" v-for="(item, index) in doList[oldItem].taskList" v-bind:key="item.id">
+                    <p v-bind:class="{ line: item.line }">{{ index+1 }}. {{ item.text }}</p>
+                    <div class="item-btn">
+                        <button v-show="item.line" class="btn btn-item uncheck" @click="uncheck(item)">Uncheck</button>
+                        <button v-show="!item.line" class="btn btn-item done" @click="done(item)">Done</button>
+                        <button v-show="item.line" class="btn btn-item del" @click="delTask(index)">Delete</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            todoText: '',
+            doList: [],
+            nameList: '',
+            oldItem: 0,
+            check: false
+        },
+        computed: {
+
+        },
+        methods: {
+            clear: function () {
+                this.todoText = '';
+            },
+            add: function () {
+                if (this.todoText.length > 0) {
+                    let text = this.todoText[0].toUpperCase() + this.todoText.slice(1);
+                    this.doList[this.oldItem].taskList.push({
+                        text: text,
+                        line: false
+                    });
+                    this.doList[this.oldItem].count++;
+                    this.todoText = '';
+                }
+            },
+            done: function (item) {
+                item.line = !item.line;
+            },
+            delTask: function (index) {
+                this.doList[this.oldItem].taskList.splice(index, 1);
+                this.doList[this.oldItem].count--;
+            },
+            delList: function (index) {
+                if (confirm('Are you sure you want to remove this list?')) {
+                    this.doList.splice(index, 1);
+                }
+            },
+            uncheck: function (item) {
+                item.line = !item.line;
+            },
+            create: function (index) {
+                if (this.nameList.length >= 1) {
+                    let text = this.nameList[0].toUpperCase() + this.nameList.slice(1);
+                    this.doList.push({
+                        name: text,
+                        count: 0,
+                        active: false,
+                        taskList: [],
+                    });
+                    this.nameList = '';
+                    this.check = true;
+                }
+                if (this.doList.length == 1) {
+                    this.oldItem = index;
+                    this.doList[0].active = true;
+                }
+            },
+            // must be change
+            activeList: function (item, index) {
+                if (this.doList[index].active != true) {
+                    this.doList[index].active = true;
+                    this.doList[this.oldItem].active = false;
+                    this.oldItem = index;
+                }
+            },
+        }
+    });
+</script>
+
+</html>
